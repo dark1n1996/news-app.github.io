@@ -8,6 +8,7 @@ class CardsList extends Component {
         this.state = {
             clicks: 1,
             arrayOfArticles: [this.props.articles[0], this.props.articles[1], this.props.articles[2]],
+            button: !(this.props.articles.length <= 3) ? true : false,
         }
     }
     pushArticles() {
@@ -15,21 +16,18 @@ class CardsList extends Component {
         let clicks = this.state.clicks;
         let arrayOfArticles = this.state.arrayOfArticles;   
         for(let i = this.state.clicks * 3; i <= 2 + this.state.clicks * 3; i++) {
+            if(!articles[i]) {
+                this.setState({button: false})
+            }
             arrayOfArticles.push(articles[i]);
             this.setState({arrayOfArticles: arrayOfArticles});   
         }
         this.setState({clicks: ++clicks});
-
-        console.log(this.state.arrayOfArticles)
     }
     render() {
         let arrayOfArticles = this.state.arrayOfArticles.map((article) => article = <Card article={article}/>)
-        let searchButton;
-        if(this.props.articles.length <= 3) {
-            searchButton = null;
-        } else {
-            searchButton = <SearchButton onClick={() => this.pushArticles()} />
-        }
+        let searchButton = this.state.button && <SearchButton onClick={() => this.pushArticles()} />
+        
         return (
             <div className='container'>
                 <div className='row'>

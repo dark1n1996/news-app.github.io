@@ -17,8 +17,9 @@ import '../styles/style.css';
       popapRegActive: false,
       popapEntryActive: false,
       keyWord: '',
-      articles: null,
+      articles: [],
       preloader: false,
+      status: '',
     }
   }
   render() {
@@ -33,8 +34,10 @@ import '../styles/style.css';
         <Header onClick={ () => this.popupRegActivate()} 
         onChange={(event) => this.changeSearchValue(event)}
         keyWord={this.state.keyWord}
-        onSubmit ={(event) => this.getArticles(event)}/>
-        <SearchResults articles={this.state.articles} preloader={this.state.preloader}/>
+        onSubmit ={(event) => this.getArticles(event)} />
+        <SearchResults articles={this.state.articles} 
+        preloader={this.state.preloader}
+        status={this.state.status} />
         <Author />
         <Footer />
       </div>
@@ -60,10 +63,11 @@ import '../styles/style.css';
 
   getArticles(event) {
     event.preventDefault();
+    console.log('Submit!')
     fetch(`https://nomoreparties.co/news/v2/everything?q=${this.state.keyWord}&so
       rtBy=publishedAt&pageSize=2&apiKey=b05767e2ad9f4d7cb8ee6cf778e5cfb4`)
       .then((data) => {
-        this.setState({articles: null, preloader: true});
+        this.setState({articles: null, preloader: true, status: ''});
         return data.json();
       })
       .then((data) => {
@@ -71,10 +75,11 @@ import '../styles/style.css';
           setTimeout(() => resolve('Done'), 1000)
         });
         promise.then((res) => {
-          this.setState({articles: data.articles, preloader: false});
+          this.setState({articles: data.articles, preloader: false, status: data.status});
         })
       })
     }
+    
 }
 
 export default App;

@@ -24,7 +24,9 @@ class Header extends Component {
                     </div>
                     <div className='row'>
                         <div className='col-6 m-auto'>
-                            <SearchForm keyWord={this.props.keyWord} onChange={(event) => this.props.onChange(event)} onSubmit={this.props.onSubmit}/>
+                            <SearchForm keyWord={this.props.keyWord} 
+                            onChange={(event) => this.props.onChange(event)} 
+                            onSubmit={(event) => this.props.onSubmit(event)} />
                         </div>
                     </div>
                 </div>

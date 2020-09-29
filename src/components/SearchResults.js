@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import CardsList from './CardsList'
-import Preloader from './Preloader'
+import CardsList from './CardsList';
+import Preloader from './Preloader';
+import NotFound from './NotFound';
 
 class SearchResults extends Component {
     constructor(props) {
@@ -12,15 +13,14 @@ class SearchResults extends Component {
 
     render() {
         const preloader = this.props.preloader && <Preloader />;
-        const cardsList = this.props.articles && <CardsList articles={this.props.articles}/>;
+        let results;
+        if(this.props.status === 'ok') {
+            results = this.props.articles.length === 0 ? <NotFound /> : <CardsList articles={this.props.articles}/>;
+        }
         return (
             <div className='search-results'>
-                <div className='container'>
-                    <div className='row'>
-                        {preloader}
-                    </div>
-                </div>
-                {cardsList}
+                {preloader}
+                {results}
             </div>
         )
     }
