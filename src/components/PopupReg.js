@@ -1,7 +1,67 @@
 import React, { Component } from 'react';
 
 class PopapReg extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            email: '',
+            password: '',
+            name: '',
+            passwordError: '',
+            emailError: '',
+            nameError: '',
+            emailValid: false,
+            passwordValid: false,
+        }
+    }
+    onPasswordChange(event) {
+        const password = event.target.value;
+        this.setState({password: password});
+        this.validatePassword(password);
+    }
+    onEmailChange(event) {
+        const email = event.target.value;
+        this.setState({email: email});
+        this.validateEmail(email);
+    }
+    validatePassword(password) {
+        if(password.length <= 8 && password.length > 0) {
+            this.setState({passwordError: 'Пароль должен содержать более 8 символов', passwordValid: false})
+        } else if(password.length === 0) {
+            this.setState({passwordError: 'Необходимо ввести пароль', passwordValid: false})
+        } else {
+            this.setState({passwordError: '', passwordValid: true})
+        }
+    }
+    validateEmail(email) {
+        const regex = /^.+@.+\..+$/;
+        if(!regex.test(email)) {
+            this.setState({emailError: 'Введите почту в верном формате', emailValid: false})
+        } else if(email.length === 0) {
+            this.setState({emailError: 'Необходимо ввести почту', emailValid: false})
+        } else {
+            this.setState({emailError: '', emailValid: true})
+        }
+    }
+    onNameChange(event) {
+        const name = event.target.value;
+        this.setState({name: name});
+        this.validateName(name);
+    }
+    validateName(name) {
+        if((name.length < 2 || name.length > 30) && name.length > 0) {
+            this.setState({nameError: 'Имя должно содержать от 2 до 30 символов', nameValid: false})
+        } else if(name.length === 0) {
+            this.setState({nameError: 'Необходимо ввести имя', nameValid: false})
+        } else {
+            this.setState({nameError: '', nameValid: true})
+        }
+    }
     render() {
+        let formValid = this.state.passwordValid*this.state.emailValid*this.state.nameValid;
+        const backgroundColor = formValid ? '#2F71E5' : '#E6E8EB';
+        const color = formValid ? '#FFFFFF' : '#B6BCBF';
+        const formButton = !formValid ? true : false;
         return (
             <div style={{width: '100%', height: '100%', backgroundColor: 'rgb(0, 0, 0, 0.5)', 
             position: 'fixed', zIndex: '1'}} className='d-flex justify-content-center align-items-center'>
@@ -17,17 +77,20 @@ class PopapReg extends Component {
                     <form className='form d-flex flex-column'>
                         <div className='form__item'>
                             <label>Email</label><br />
-                            <input placeholder='Введите свою почту'></input>
+                            <input value={this.state.email} onChange={(event) => this.onEmailChange(event)} placeholder='Введите свою почту'></input>
+                            <label>{this.state.emailError}</label>
                         </div>
                         <div className='form__item'>
-                            <label>Пароль</label><br />
-                            <input placeholder='Введите свой пароль'></input>
+                            <label >Пароль</label><br />
+                            <input value={this.state.password} onChange={(event) => this.onPasswordChange(event)} placeholder='Введите свой пароль'></input>
+                            <label>{this.state.passwordError}</label>
                         </div>
                         <div className='form__item'>
                             <label>Имя</label><br />
-                            <input placeholder='Введите свое имя'></input>
+                            <input value={this.state.name} onChange={(event) => this.onNameChange(event)} placeholder='Введите свое имя'></input>
+                            <label>{this.state.nameError}</label>
                         </div>
-                        <button className='form__button align-self-center'>Зарегистрироваться</button>
+                        <button disabled={formButton} style={{backgroundColor: backgroundColor, color: color}} className='form__button align-self-center'>Войти</button>
                     </form>
                     <span>или<button className='popup__entry-button' onClick={this.props.onClick}>Войти</button></span>
                 </div>
