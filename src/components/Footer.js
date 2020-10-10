@@ -13,10 +13,10 @@ class Footer extends Component {
                         </div>
                         <div className='col-4 ml-auto'>
                             <ul className='d-flex ml-auto justify-content-center'>
-                                <li className='footer__link'><a>Главная</a></li>
-                                <li className='footer__link'><a>Яндекс.Практикум</a></li>
-                                <li className='footer__sign'><img src={ fb } alt='Значок'></img></li>
-                                <li className='footer__sign'><img src={ gh } alt='Значок'></img></li>
+                                <li className='footer__link'><a href='/'>Главная</a></li>
+                                <li className='footer__link'><a href='/'>Яндекс.Практикум</a></li>
+                                <li className='footer__sign'><a href='/'><img src={ fb } alt='Значок'></img></a></li>
+                                <li className='footer__sign'><a href='/'><img src={ gh } alt='Значок'></img></a></li>
                             </ul>
                         </div>
                     </div>
